@@ -1,6 +1,7 @@
 #!usr/bin/env python
 # -*- coding: utf-8 -*-
 import copy
+import random
 
 # 冒泡排序伪代码
 # for i <- 1 to Length(A) - 1
@@ -111,51 +112,19 @@ if __name__ == "__main__":
     import unittest
     class TestInsertSort(unittest.TestCase):
         def test_case(self):
-            self.assertEqual(bubble_sort([2, 1]), [1, 2])
-            self.assertEqual(bubble_sort_opt_1([2, 1]), [1, 2])
-            self.assertEqual(bubble_sort_opt_2([2, 1]), [1, 2])
-            self.assertEqual(bubble_sort_opt_3([2, 1]), [1, 2])
-        
-        def test_case_2(self):
-            self.assertEqual(bubble_sort([2, 1, 3]), [1, 2, 3])
-            self.assertEqual(bubble_sort_opt_1([2, 1, 3]), [1, 2, 3])
-            self.assertEqual(bubble_sort_opt_2([2, 1, 3]), [1, 2, 3])
-            self.assertEqual(bubble_sort_opt_3([2, 1, 3]), [1, 2, 3])
-        
-        def test_case_3(self):
-            self.assertEqual(bubble_sort([3, 2, 1]), [1, 2, 3])
-            self.assertEqual(bubble_sort_opt_1([3, 2, 1]), [1, 2, 3])
-            self.assertEqual(bubble_sort_opt_2([3, 2, 1]), [1, 2, 3])
-            self.assertEqual(bubble_sort_opt_3([3, 2, 1]), [1, 2, 3])
-        
-        def tset_case_4(self):
-            self.assertEqual(bubble_sort([1, 3, 2]), [1, 2, 3])
-            self.assertEqual(bubble_sort_opt_1([1, 3, 2]), [1, 2, 3])
-            self.assertEqual(bubble_sort_opt_2([1, 3, 2]), [1, 2, 3])
-            self.assertEqual(bubble_sort_opt_3([1, 3, 2]), [1, 2, 3])
+            shuffle_test_case = [random.randint(0, 10000) for i in range(1000)]
+            sorted_test_case = sorted(shuffle_test_case)
+            self.assertEqual(bubble_sort(shuffle_test_case), sorted_test_case)
+            self.assertEqual(bubble_sort_opt_1(shuffle_test_case), sorted_test_case)
+            self.assertEqual(bubble_sort_opt_2(shuffle_test_case), sorted_test_case)
+            self.assertEqual(bubble_sort_opt_3(shuffle_test_case), sorted_test_case)
 
         def test_case_r(self):
-            self.assertEqual(bubble_sort([2, 1], True), [2, 1])
-            self.assertEqual(bubble_sort_opt_1([2, 1], True), [2, 1])
-            self.assertEqual(bubble_sort_opt_2([2, 1], True), [2, 1])
-            self.assertEqual(bubble_sort_opt_3([2, 1], True), [2, 1])
-        
-        def test_case_2_r(self):
-            self.assertEqual(bubble_sort([2, 1, 3], True), [3, 2, 1])
-            self.assertEqual(bubble_sort_opt_1([2, 1, 3], True), [3, 2, 1])
-            self.assertEqual(bubble_sort_opt_2([2, 1, 3], True), [3, 2, 1])
-            self.assertEqual(bubble_sort_opt_3([2, 1, 3], True), [3, 2, 1])
-        
-        def test_case_3_r(self):
-            self.assertEqual(bubble_sort([3, 2, 1], True), [3, 2, 1])
-            self.assertEqual(bubble_sort_opt_1([3, 2, 1], True), [3, 2, 1])
-            self.assertEqual(bubble_sort_opt_2([3, 2, 1], True), [3, 2, 1])
-            self.assertEqual(bubble_sort_opt_3([3, 2, 1], True), [3, 2, 1])
-        
-        def tset_case_4_r(self):
-            self.assertEqual(bubble_sort([1, 3, 2], True), [3, 2, 1])
-            self.assertEqual(bubble_sort_opt_1([1, 3, 2], True), [3, 2, 1])
-            self.assertEqual(bubble_sort_opt_2([1, 3, 2], True), [3, 2, 1])
-            self.assertEqual(bubble_sort_opt_3([1, 3, 2], True), [3, 2, 1])
-    
+            shuffle_test_case = [random.randint(0, 10000) for i in range(1000)]
+            sorted_test_case = sorted(shuffle_test_case, reverse=True)
+            self.assertEqual(bubble_sort(shuffle_test_case, reverse=True), sorted_test_case)
+            self.assertEqual(bubble_sort_opt_1(shuffle_test_case, reverse=True), sorted_test_case)
+            self.assertEqual(bubble_sort_opt_2(shuffle_test_case, reverse=True), sorted_test_case)
+            self.assertEqual(bubble_sort_opt_3(shuffle_test_case, reverse=True), sorted_test_case)
+
     unittest.main()
