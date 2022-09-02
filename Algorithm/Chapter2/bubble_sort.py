@@ -96,10 +96,9 @@ def bubble_sort_opt_3(input_list, reverse=False):
         had_exchange = False
         for j in range(max(changed_index_forward - 1, 1), changed_index_backward, -1):
             # 从changed_index_forward -> len(result) - i 有序
-            # 反向changed_index_forward - 1 -> 1作为j，逆向判断处理
             if _sort_cmp_func(result[j-1], result[j]):
                 had_exchange = True
-                changed_index_backward = j # changed_index_backward - 1 -> 0 有序
+                changed_index_backward = j
                 tmp_element = result[j]
                 result[j] = result[j-1]
                 result[j-1] = tmp_element
