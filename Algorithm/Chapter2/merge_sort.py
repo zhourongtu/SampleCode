@@ -10,22 +10,34 @@ def r_cmp_func(a, b):
 
 def merge(be_sorted_list, l_start, l_end, r_end, reverse=False):
     _cmp_func = cmp_func if not reverse else r_cmp_func
-    GUARD_NUM = GUARD_NUM_MAX if not reverse else GUARD_NUM_MIN
+    # GUARD_NUM = GUARD_NUM_MAX if not reverse else GUARD_NUM_MIN
     len_l = l_end - l_start + 1
     len_r = r_end - l_end
     tmp_list_l = [be_sorted_list[l_start + i] for i in range(len_l)]
-    tmp_list_l.append(GUARD_NUM)
+    # tmp_list_l.append(GUARD_NUM)
     tmp_list_r = [be_sorted_list[l_end + 1 + i] for i in range(len_r)]
-    tmp_list_r.append(GUARD_NUM)
+    # tmp_list_r.append(GUARD_NUM)
     i = 0
     j = 0
-    for k in range(len_l + len_r):
+    k = 0
+    for tmp_k in range(len_l + len_r):
+        #添加部分
+        k = tmp_k
+        if i == len_l or j == len_r:
+            break
+
         if _cmp_func(tmp_list_l[i], tmp_list_r[j]):
             be_sorted_list[l_start + k] = tmp_list_l[i]
             i += 1
         else:
             be_sorted_list[l_start + k] = tmp_list_r[j]
             j += 1
+    # 添加部分
+    if i < len_l:
+        be_sorted_list[l_start+k : r_end+1] = tmp_list_l[i : len_l]
+    if j < len_r:
+        be_sorted_list[l_start+k : r_end+1] = tmp_list_r[j : len_r]
+
 
 def merge_sort(be_sorted_list):
     result = copy.copy(be_sorted_list)
