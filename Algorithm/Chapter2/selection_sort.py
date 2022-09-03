@@ -16,6 +16,8 @@ def selection_sort(input_list, reverse=False):
             if _sort_cmp_func(result[j], num):
                 num = result[j]
                 num_index = j
+        if num_index == i:
+            break
         tmp_num = result[num_index]
         result[num_index] = result[i]
         result[i] = tmp_num
