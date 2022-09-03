@@ -21,13 +21,13 @@ def binary_search(data_list, element, cmp_func):
     end = len(data_list) - 1
     f_s = start
     f_e = end
-    while f_s < f_e:
+    while f_s <= f_e:
         mid = (f_s + f_e) // 2
         if cmp_func(data_list[mid], element) == 0:
-            f_s = f_e = mid
-        elif cmp_func(f_s, element) == -1:
+            break
+        elif cmp_func(data_list[mid], element) == -1:
             f_s = mid + 1
-        elif cmp_func(f_s, element) == 1:
+        elif cmp_func(data_list[mid], element) == 1:
             f_e = mid - 1
     if f_s > f_e:
         return -1
@@ -45,4 +45,4 @@ def cmp_func(a, b):
 if __name__ == '__main__':
     # import unittest
     # unittest.main()
-    print(binary_search([1, 2, 3], 3, cmp_func))
+    print(binary_search([1, 2, 3], 4, cmp_func))
