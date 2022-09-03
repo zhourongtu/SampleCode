@@ -9,6 +9,21 @@ import random
 #     for j <- 1 to Length(A) - i
 #         exchange A[j] with A[j-1] if A[j] < A[j-1]
 
+class CountCompute():
+    def __init__(self):
+        self.cnt_ori = 0
+        self.cnt_opt_1 = 0
+        self.cnt_opt_2 = 0
+        self.cnt_opt_3 = 0
+
+    def clear(self):
+        self.cnt_ori = 0
+        self.cnt_opt_1 = 0
+        self.cnt_opt_2 = 0
+        self.cnt_opt_3 = 0
+
+cnt_log = CountCompute()
+
 # 冒泡排序
 def bubble_sort(input_list, reverse=False):
     def cmp_func(a, b):
@@ -19,6 +34,7 @@ def bubble_sort(input_list, reverse=False):
     result = copy.deepcopy(input_list)
     for i in range(len(result)-1):
         for j in range(1, len(result) - i):
+            cnt_log.cnt_ori += 1
             if _sort_cmp_func(result[j-1], result[j]):
                 tmp_element = result[j]
                 result[j] = result[j-1]
@@ -36,6 +52,7 @@ def bubble_sort_opt_1(input_list, reverse=False):
     for i in range(len(result)-1):
         had_exchange = False
         for j in range(1, len(result) - i):
+            cnt_log.cnt_opt_1 += 1
             if _sort_cmp_func(result[j-1], result[j]):
                 had_exchange = True # 优化点：标记发生过交换
                 tmp_element = result[j]
@@ -58,6 +75,7 @@ def bubble_sort_opt_2(input_list, reverse=False):
     for i in range(len(result)-1):
         had_exchange = False
         for j in range(1, min(len(result) - i, changed_index)):
+            cnt_log.cnt_opt_2 += 1
             if _sort_cmp_func(result[j-1], result[j]):
                 had_exchange = True
                 changed_index = j # 优化点2：标记最后一次交换后的时间，j及以后保持有序。
@@ -84,6 +102,7 @@ def bubble_sort_opt_3(input_list, reverse=False):
         # 正向排序
         had_exchange = False
         for j in range(1, min(len(result) - i, changed_index_forward)):
+            cnt_log.cnt_opt_3 += 1
             if _sort_cmp_func(result[j-1], result[j]):
                 had_exchange = True
                 changed_index_forward = j
@@ -95,6 +114,7 @@ def bubble_sort_opt_3(input_list, reverse=False):
         # 反向排序（此时len(result) - i 及以后有序）、changed_index_forward及以后有序。取后者
         had_exchange = False
         for j in range(max(changed_index_forward - 1, 1), changed_index_backward, -1):
+            cnt_log.cnt_opt_3 += 1
             # 从changed_index_forward -> len(result) - i 有序
             if _sort_cmp_func(result[j-1], result[j]):
                 had_exchange = True
@@ -108,22 +128,34 @@ def bubble_sort_opt_3(input_list, reverse=False):
 
 
 if __name__ == "__main__":
-    import unittest
-    class TestInsertSort(unittest.TestCase):
-        def test_case(self):
-            shuffle_test_case = [random.randint(0, 10000) for i in range(1000)]
-            sorted_test_case = sorted(shuffle_test_case)
-            self.assertEqual(bubble_sort(shuffle_test_case), sorted_test_case)
-            self.assertEqual(bubble_sort_opt_1(shuffle_test_case), sorted_test_case)
-            self.assertEqual(bubble_sort_opt_2(shuffle_test_case), sorted_test_case)
-            self.assertEqual(bubble_sort_opt_3(shuffle_test_case), sorted_test_case)
+    for i in range(10):
+        shuffle_test_case = [random.randint(0, 10000) for i in range(2000)]
+        sorted_test_case = sorted(shuffle_test_case)
+        bubble_sort(shuffle_test_case)
+        bubble_sort_opt_1(shuffle_test_case)
+        bubble_sort_opt_2(shuffle_test_case)
+        bubble_sort_opt_3(shuffle_test_case)
+    print("ori: \t", cnt_log.cnt_ori)
+    print("opt_1: \t", cnt_log.cnt_opt_1, "\topt_percent:", cnt_log.cnt_ori / cnt_log.cnt_opt_1)
+    print("opt_2: \t", cnt_log.cnt_opt_2, "\topt_percent:", cnt_log.cnt_ori / cnt_log.cnt_opt_2)
+    print("opt_3: \t", cnt_log.cnt_opt_3, "\topt_percent:", cnt_log.cnt_ori / cnt_log.cnt_opt_3)
 
-        def test_case_r(self):
-            shuffle_test_case = [random.randint(0, 10000) for i in range(1000)]
-            sorted_test_case = sorted(shuffle_test_case, reverse=True)
-            self.assertEqual(bubble_sort(shuffle_test_case, reverse=True), sorted_test_case)
-            self.assertEqual(bubble_sort_opt_1(shuffle_test_case, reverse=True), sorted_test_case)
-            self.assertEqual(bubble_sort_opt_2(shuffle_test_case, reverse=True), sorted_test_case)
-            self.assertEqual(bubble_sort_opt_3(shuffle_test_case, reverse=True), sorted_test_case)
+    # import unittest
+    # class TestInsertSort(unittest.TestCase):
+    #     def test_case(self):
+    #         shuffle_test_case = [random.randint(0, 10000) for i in range(1000)]
+    #         sorted_test_case = sorted(shuffle_test_case)
+    #         self.assertEqual(bubble_sort(shuffle_test_case), sorted_test_case)
+    #         self.assertEqual(bubble_sort_opt_1(shuffle_test_case), sorted_test_case)
+    #         self.assertEqual(bubble_sort_opt_2(shuffle_test_case), sorted_test_case)
+    #         self.assertEqual(bubble_sort_opt_3(shuffle_test_case), sorted_test_case)
 
-    unittest.main()
+    #     def test_case_r(self):
+    #         shuffle_test_case = [random.randint(0, 10000) for i in range(1000)]
+    #         sorted_test_case = sorted(shuffle_test_case, reverse=True)
+    #         self.assertEqual(bubble_sort(shuffle_test_case, reverse=True), sorted_test_case)
+    #         self.assertEqual(bubble_sort_opt_1(shuffle_test_case, reverse=True), sorted_test_case)
+    #         self.assertEqual(bubble_sort_opt_2(shuffle_test_case, reverse=True), sorted_test_case)
+    #         self.assertEqual(bubble_sort_opt_3(shuffle_test_case, reverse=True), sorted_test_case)
+
+    # unittest.main()
