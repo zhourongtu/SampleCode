@@ -12,4 +12,15 @@ blah.c:
 	echo "int main() { return 0; }" > blah.c # Runs first
 
 clean:
-	ls | grep -E -v "Makefile|*.c" |xargs rm -f 
+	ls | grep -E -v "Makefile|*.c" |xargs rm -f
+
+files := file1 file2
+some_file: $(files)
+	echo "Look at this variable: " $(files)
+	touch some_file
+
+file1:
+	touch file1
+file2:
+	touch file2
+
