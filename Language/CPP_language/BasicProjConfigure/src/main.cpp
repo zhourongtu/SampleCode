@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+int add(int a, int b);
+
 int main(int argc,char* argv[])
 {
     int count = 0;
@@ -7,5 +9,6 @@ int main(int argc,char* argv[])
     for (count = 0; count < argc; ++count) {
         printf("%d: %s\n",count,argv[count]);
     }
+    printf("call func: %d\n", add(5, 6));
     return 0;
 }
