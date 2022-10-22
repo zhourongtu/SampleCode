@@ -1,9 +1,12 @@
-bar =
-foo = $(bar)
+.DELETE_ON_ERROR:
+all: one two
 
-all:
-# Search for the "-i" flag. MAKEFLAGS is just a list of single characters, one per flag. So look for "i" in this case.
-ifneq (,$(findstring i, $(MAKEFLAGS)))
-	echo "i was passed to MAKEFLAGS"
-	echo $(MAKEFLAGS)
-endif
+one: two
+	touch one
+	false
+
+two: s
+	touch two
+
+s:
+	touch s
