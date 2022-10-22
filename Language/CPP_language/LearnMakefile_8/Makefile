@@ -1,10 +1,9 @@
-# Recursive variable. This will print "later" below
-one = one ${later_variable}
-# Simply expanded variable. This will not print "later" below
-two := two ${later_variable}
+bar =
+foo = $(bar)
 
-later_variable = later
-
-all: 
-	echo $(one)
-	echo $(two)
+all:
+# Search for the "-i" flag. MAKEFLAGS is just a list of single characters, one per flag. So look for "i" in this case.
+ifneq (,$(findstring i, $(MAKEFLAGS)))
+	echo "i was passed to MAKEFLAGS"
+	echo $(MAKEFLAGS)
+endif
